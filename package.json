@@ -27,7 +27,7 @@
     "jquery": "^3.3.1",
     "path": "^0.12.7",
     "rxjs": "~6.3.3",
-    "semantic-ui": "^2.4.2",
+    "semantic-ui-css": "^2.4.1",
     "typescript": "~3.1.1",
     "webpack-dev-server": ">=3.1.11",
     "zone.js": "~0.8.26"
