@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService, VkontakteLoginProvider } from 'angular-6-social-login-v2';
+import { AuthService as SocialAuthService, VkontakteLoginProvider } from 'angular-6-social-login-v2';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-sign-in',
@@ -8,7 +9,7 @@ import { AuthService, VkontakteLoginProvider } from 'angular-6-social-login-v2';
 })
 export class SignInComponent implements OnInit {
 
-  constructor(private socialAuthService: AuthService) { }
+  constructor(private socialAuthService: SocialAuthService, private authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -16,7 +17,7 @@ export class SignInComponent implements OnInit {
   public signIn() {
     this.socialAuthService.signIn(VkontakteLoginProvider.PROVIDER_ID).then(
       (userData) => {
-        console.log('Vk sign in data : ' , userData);
+        this.authService.login(userData);
       });
   }
 }
