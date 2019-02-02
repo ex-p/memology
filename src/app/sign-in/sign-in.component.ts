@@ -17,6 +17,7 @@ export class SignInComponent implements OnInit {
   public signIn() {
     this.socialAuthService.signIn(VkontakteLoginProvider.PROVIDER_ID).then(
       (userData) => {
+        console.log(userData);
         this.authService.login(userData);
       });
   }
