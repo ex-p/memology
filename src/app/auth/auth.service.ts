@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { tap, delay } from 'rxjs/operators';
 import { tokenKey } from '@angular/core/src/view';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
   providedIn: 'root'
@@ -9,33 +10,24 @@ import { tokenKey } from '@angular/core/src/view';
 export class AuthService {
 
   get isLoggedIn() {
-    return localStorage.getItem('access_token') !== null;
+    return this.isTokenValid(this.accessToken);
   }
   redirectUrl: string;
 
-  login(userData: any) {
-    this.accessToken = userData.token;
-    this.userId = userData.id;
+  isTokenValid(myRawToken) {
+    const helper = new JwtHelperService();
+    const decodedToken = helper.decodeToken(myRawToken);
+    const expirationDate = helper.getTokenExpirationDate(myRawToken);
+    const isExpired = helper.isTokenExpired(myRawToken);
+    console.log(decodedToken);
+    return !isExpired;
   }
-
-  set userId(usedId: string) {
-    if (usedId !== null) {
-      localStorage.setItem('user_id', usedId);
-    } else {
-      localStorage.removeItem('user_id');
-    }
-  }
-
-  get userId() {
-    return localStorage.getItem('user_id');
+  login(myRawToken: string) {
+    this.accessToken = myRawToken;
   }
 
   set accessToken(token: string) {
-    if (token !== null) {
-      localStorage.setItem('access_token', token);
-    } else {
-      localStorage.removeItem('access_token');
-    }
+    localStorage.setItem('access_token', token);
   }
 
   get accessToken() {
@@ -43,7 +35,6 @@ export class AuthService {
   }
 
   logout(): void {
-    this.accessToken = null;
-    this.userId = null;
+    localStorage.removeItem('access_token');
   }
 }

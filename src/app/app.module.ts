@@ -5,7 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { MemComponent } from './mem/mem.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { CookieService } from 'ngx-cookie-service';
 import {
   SocialLoginModule,
   AuthServiceConfig,
@@ -26,17 +27,20 @@ export function getAuthServiceConfigs() {
   declarations: [
     AppComponent,
     SignInComponent,
-    MemComponent
+    MemComponent,
   ],
   imports: [
     SocialLoginModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
   ],
   providers: [{
     provide: AuthServiceConfig,
-    useFactory: getAuthServiceConfigs
-  }],
+    useFactory: getAuthServiceConfigs,
+  },
+    CookieService,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
