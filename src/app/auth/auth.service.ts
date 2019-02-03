@@ -19,10 +19,10 @@ export class AuthService {
     const decodedToken = helper.decodeToken(myRawToken);
     const expirationDate = helper.getTokenExpirationDate(myRawToken);
     const isExpired = helper.isTokenExpired(myRawToken);
-    console.log(decodedToken);
     return !isExpired;
   }
   login(accessToken, refreshToken) {
+    console.log('logging with: ' + accessToken);
     this.accessToken = accessToken;
     this.refresh = refreshToken;
   }
