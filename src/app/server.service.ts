@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 })
 export class ServerService {
 
-  private serverAddress = 'http://memoser.herokuapp.com/';
+  private serverAddress = 'https://memoser.herokuapp.com/';
   constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   public requestToken(userData) {
