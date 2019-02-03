@@ -22,8 +22,9 @@ export class AuthService {
     console.log(decodedToken);
     return !isExpired;
   }
-  login(myRawToken: string) {
-    this.accessToken = myRawToken;
+  login(accessToken, refreshToken) {
+    this.accessToken = accessToken;
+    this.refresh = refreshToken;
   }
 
   set accessToken(token: string) {
@@ -34,7 +35,16 @@ export class AuthService {
     return localStorage.getItem('access_token');
   }
 
+  set refresh(token: string) {
+    localStorage.setItem('refresh', token);
+  }
+
+  get refresh() {
+    return localStorage.getItem('refresh');
+  }
+
   logout(): void {
     localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh');
   }
 }
