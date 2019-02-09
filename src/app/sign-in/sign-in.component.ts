@@ -3,6 +3,7 @@ import {AuthService as SocialAuthService, VkontakteLoginProvider} from 'angular-
 import {AuthService} from '../auth/auth.service';
 import {HttpClient} from '@angular/common/http';
 import {ServerService} from '../server.service';
+import {Router} from '@angular/router';
 
 @Component({
     selector: 'app-sign-in',
@@ -16,7 +17,8 @@ export class SignInComponent implements OnInit {
     constructor(private socialAuthService: SocialAuthService,
                 private authService: AuthService,
                 private http: HttpClient,
-                private server: ServerService) {
+                private server: ServerService,
+                private router: Router) {
     }
 
     ngOnInit() {
@@ -26,8 +28,16 @@ export class SignInComponent implements OnInit {
         this.socialAuthService.signIn(VkontakteLoginProvider.PROVIDER_ID).then(u =>
             this.server.requestToken(u).subscribe(e => {
                 this.WarningMessage = e.toString();
-                console.log(e);
-                this.authService.login(e['access_token'], e['refresh']);
+                console.log(e['error']);
+                if (e['error'] !== null) {
+                    this.WarningMessage = e['error'];
+                } else {
+                    if (this.authService.login(e['access_token'], e['refresh'])) {
+                        this.router.navigate(['']);
+                    } else {
+                        this.WarningMessage = e['Ошибка авторизации'];
+                    }
+                }
             }));
     }
 
