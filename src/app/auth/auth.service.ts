@@ -10,16 +10,20 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 export class AuthService {
 
   get isLoggedIn() {
-    return this.isTokenValid(this.accessToken);
+    return this.accessToken && this.isTokenValid(this.accessToken);
   }
   redirectUrl: string;
 
   isTokenValid(myRawToken) {
-    const helper = new JwtHelperService();
-    const decodedToken = helper.decodeToken(myRawToken);
-    const expirationDate = helper.getTokenExpirationDate(myRawToken);
-    const isExpired = helper.isTokenExpired(myRawToken);
-    return !isExpired;
+    try {
+      const helper = new JwtHelperService();
+      const decodedToken = helper.decodeToken(myRawToken);
+      const expirationDate = helper.getTokenExpirationDate(myRawToken);
+      const isExpired = helper.isTokenExpired(myRawToken);
+      return !isExpired;
+    } catch (e) {
+      return false;
+    }
   }
   login(accessToken, refreshToken) {
     console.log('logging with: ' + accessToken);

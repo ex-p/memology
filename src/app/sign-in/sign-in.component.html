@@ -1,5 +1,16 @@
-<p>
-  sign-in works!
-</p>
-<button (click)="signIn()">Sign in with VK</button>    
+<div class="ui container pushable">
+    <div class="main">
+        <h1 class="ui header">Мемология</h1>
+        <div class="ui negative message" *ngIf="WarningMessage !== null">
+            <p>{{WarningMessage}}</p>
+        </div>
+        <div>
 
+            <button (click)="signIn()" class="ui vk button">
+                <i class="vk icon"></i>
+                Sign In
+            </button>
+        </div>
+
+    </div>
+</div>
