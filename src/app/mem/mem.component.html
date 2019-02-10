@@ -1,3 +1,19 @@
-<p>
-  mem works!
-</p>
+<div class="ui container pushable main">
+    <div class="ui link cards">
+        <div class="card" *ngFor="let mem of Mems">
+            <div class="image">
+                <img src="{{mem.image}}">
+            </div>
+            <div class="content">
+                <div class="header">{{mem.title}}</div>
+                <div class="meta">
+                    <a>Tag</a>
+                </div>
+                <div class="description">
+                    {{mem.description}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

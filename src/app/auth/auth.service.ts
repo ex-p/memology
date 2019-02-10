@@ -3,11 +3,15 @@ import {Observable, of} from 'rxjs';
 import {tap, delay} from 'rxjs/operators';
 import {tokenKey} from '@angular/core/src/view';
 import {JwtHelperService} from '@auth0/angular-jwt';
+import {ServerService} from '../server.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthService {
+
+    constructor(private server: ServerService) {
+    }
 
     get isLoggedIn() {
         return this.accessToken && this.isTokenValid(this.accessToken);
@@ -18,7 +22,13 @@ export class AuthService {
             const helper = new JwtHelperService();
             const decodedToken = helper.decodeToken(myRawToken);
             const expirationDate = helper.getTokenExpirationDate(myRawToken);
-            const isExpired = helper.isTokenExpired(myRawToken);
+            let isExpired = helper.isTokenExpired(myRawToken);
+            if (isExpired) {
+                this.server.updateToken(this.refresh).subscribe(e => {
+                    this.accessToken = e['access'];
+                    isExpired = helper.isTokenExpired(this.accessToken);
+                });
+            }
             return !isExpired;
         } catch (e) {
             return false;

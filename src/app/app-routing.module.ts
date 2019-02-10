@@ -14,7 +14,7 @@ const routes: Routes = [
     {
         path: 'sign-in',
         component: SignInComponent,
-        canActivate: [AnonGuard]
+        canActivate: [AnonGuard],
     },
     {
         path: '**',

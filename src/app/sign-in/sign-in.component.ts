@@ -28,7 +28,6 @@ export class SignInComponent implements OnInit {
         this.socialAuthService.signIn(VkontakteLoginProvider.PROVIDER_ID).then(u =>
             this.server.requestToken(u).subscribe(e => {
                 this.WarningMessage = e.toString();
-                console.log(e['error']);
                 if (e['error'] !== null) {
                     this.WarningMessage = e['error'];
                 } else {
